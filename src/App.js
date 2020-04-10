@@ -18,10 +18,30 @@ function App() {
       });
   }, []);
 
-  async function handleAddRepository() {}
+  async function handleAddRepository() {
+    try {
+      const response = await api.post("repositories", {
+        title: "Desafio React.js",
+        url: "https://github.com/LuizAdamchuk/desafio-reactjs-goStack.git",
+        techs: ["Node.js", "React", "React Native"],
+      });
+
+      setRepositories(...repositories, response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleRemoveRepository(id) {
-    // TODO
+    try {
+      await api.delete(`/repositories/${id}`);
+
+      setRepositories(
+        repositories.filter((repository) => repository.id !== id)
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
